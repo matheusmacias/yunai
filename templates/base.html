@@ -11,90 +11,337 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'dist/styles.css' %}" />
   </head>
-  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+  <body class="bg-white text-gray-900 min-h-screen flex flex-col">
     <!-- Header com menu superior -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <header class="bg-white shadow-sm border-b border-gray-200 fixed w-full top-0 z-50">
+      <div class="px-6 lg:px-8">
         <div class="flex items-center justify-between py-3">
-          <!-- Logo/Nome à esquerda -->
-          <div class="flex items-center space-x-3">
-            <div class="bg-gray-900 text-white w-8 h-8 flex items-center justify-center rounded font-bold text-sm">Y</div>
-            <h1 class="text-lg font-semibold text-gray-900">Yunai</h1>
+        <!-- Logo/Nome à esquerda -->
+        <div class="flex items-center space-x-3">
+          <div class="bg-gray-900 text-white w-8 h-8 flex items-center justify-center rounded font-bold text-sm">
+            Y
           </div>
-          <!-- Barra de pesquisa centralizada -->
-          <div class="flex-1 max-w-2xl mx-6">
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-400"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
-                  </path>
-                </svg>
-              </div>
-              <input type="text"
-                     placeholder="Pesquisar ou digitar um comando (⌘ + G)"
-                     class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-sm placeholder-gray-500" />
+          <h1 class="text-lg font-semibold text-gray-900">Yunai</h1>
+        </div>
+
+        <!-- Barra de pesquisa centralizada -->
+        <div class="flex-1 max-w-2xl mx-6">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
             </div>
+            <input 
+              type="text" 
+              placeholder="Pesquisar ou digitar um comando (⌘ + G)"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm placeholder-gray-500"
+            />
           </div>
+        </div>
+
           <!-- Avatar do usuário -->
           <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-            MM
+            JD
           </div>
         </div>
+        </div>
       </div>
+    </header>
+
+    <!-- Layout principal com sidebar -->
+    <div class="flex flex-1 pt-16">
+      <!-- Sidebar -->
+      <aside class="fixed left-6 top-16 w-64 h-full pt-6 overflow-y-auto">
+        <div>
+          <!-- Home Button -->
+          <div class="flex items-center space-x-3 mb-6 px-3">
+            <svg class="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <h2 class="text-lg font-semibold text-gray-900">Home</h2>
+          </div>
+
+          <!-- Menu de navegação -->
+          <nav class="space-y-2">
+            <!-- Seção PUBLIC -->
+            <div class="mb-4">
+              <div class="flex items-center space-x-2 text-xs font-medium text-gray-500 uppercase tracking-wide mb-2 px-3">
+                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+                <span>PUBLIC</span>
+              </div>
+              
+              <ul class="space-y-1 ml-4">
+                <li>
+                  <a href="#" class="flex items-center space-x-3 text-gray-700 hover:text-gray-900 hover:bg-blue-50 rounded-lg px-3 py-2 text-sm font-medium bg-blue-50 text-blue-700">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span>Home</span>
+                  </a>
+                </li>
+                
+                <li>
+                  <div class="flex items-center space-x-3 text-gray-700 hover:text-gray-900 hover:bg-blue-50 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>Accounting</span>
+                    <svg class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Conteúdo principal -->
+      <main class="flex-1 ml-80 p-6">
+        {% block content %}
+        <div>
+          <h2 class="text-2xl font-bold mb-6">Your Shortcuts</h2>
+          
+          <!-- Gráfico P&L -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">P&L</h3>
+              <div class="flex items-center space-x-2">
+                <button class="p-1 text-gray-400 hover:text-gray-600">
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                  </svg>
+                </button>
+                <button class="p-1 text-gray-400 hover:text-gray-600">
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Placeholder para o gráfico -->
+            <div class="h-48 bg-blue-50 rounded-lg flex items-center justify-center">
+              <p class="text-blue-600">Gráfico P&L - Implementar com biblioteca de gráficos</p>
+            </div>
+          </div>
+
+          <!-- Cards de atalhos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Item</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Supplier</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Sales Invoice</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Leaderboard</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cards com números -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Customer</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+                <span class="text-lg font-semibold text-blue-600">90</span>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Supplier Details</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+                <span class="text-lg font-semibold text-blue-600">25</span>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Lead</h4>
+                  <p class="text-sm text-gray-500">↗</p>
+                </div>
+                <span class="text-lg font-semibold text-blue-600">124</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reports & Masters Section -->
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Reports & Masters</h3>
+          
+          <!-- Seções Reports & Masters -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Accounting -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h4 class="font-semibold text-gray-900 mb-4">Accounting</h4>
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Customer</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Supplier</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Stock -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h4 class="font-semibold text-gray-900 mb-4">Stock</h4>
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Item</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Warehouse</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Brand</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Unit of Measure (UOM)</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- CRM -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h4 class="font-semibold text-gray-900 mb-4">CRM</h4>
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Lead</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Customer Group</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors">
+                  <span>Territory</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Import and Settings -->
+          <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Data Import and Settings</h3>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors p-3 rounded-lg hover:bg-blue-50">
+                  <span>Data Import</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors p-3 rounded-lg hover:bg-blue-50">
+                  <span>System Settings</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-blue-600 transition-colors p-3 rounded-lg hover:bg-blue-50">
+                  <span>User Management</span>
+                  <span class="text-sm text-gray-400">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endblock %}
+      </main>
     </div>
-  </header>
-  <!-- Conteúdo principal -->
-  <main class="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex-1">
-    {% block content %}
-      <div>
-        <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
-        <!-- Exemplo de conteúdo -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="font-semibold text-gray-900 mb-2">Seus Atalhos</h3>
-            <p class="text-gray-600">Acesso rápido às suas funcionalidades favoritas</p>
-          </div>
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="font-semibold text-gray-900 mb-2">Relatórios</h3>
-            <p class="text-gray-600">Visualize seus dados e métricas importantes</p>
-          </div>
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="font-semibold text-gray-900 mb-2">Configurações</h3>
-            <p class="text-gray-600">Personalize sua experiência no sistema</p>
-          </div>
-        </div>
-      </div>
-    {% endblock %}
-  </main>
-  <!-- Footer -->
-  <footer class="text-center text-sm p-4 text-gray-500 bg-white border-t border-gray-200">
-    &copy; 2025 - Yunai AI
-  </footer>
-  <!-- Script para funcionalidade da pesquisa -->
-  <script>
+
+    <!-- Footer -->
+    <footer class="text-center text-sm p-4 text-gray-500 bg-white border-t border-gray-200 ml-80">
+      &copy; 2025 - Yunai AI
+    </footer>
+
+    <!-- Script para funcionalidade da pesquisa e sidebar -->
+    <script>
       // Adicionar funcionalidade de atalho de teclado
       document.addEventListener('keydown', function(e) {
-          if ((e.metaKey || e.ctrlKey) && e.key === 'g') {
-              e.preventDefault();
-              document.querySelector('input[type="text"]').focus();
-          }
+        if ((e.metaKey || e.ctrlKey) && e.key === 'g') {
+          e.preventDefault();
+          document.querySelector('input[type="text"]').focus();
+        }
       });
 
       // Funcionalidade de pesquisa
       document.querySelector('input[type="text"]').addEventListener('keydown', function(e) {
-          if (e.key === 'Enter') {
-              const query = e.target.value;
-              if (query.trim()) {
-                  console.log('Pesquisando por:', query);
-                  // Aqui você pode implementar a lógica de pesquisa
-                  // Por exemplo, redirecionar para uma página de resultados
-                  // window.location.href = `/search/?q=${encodeURIComponent(query)}`;
-              }
+        if (e.key === 'Enter') {
+          const query = e.target.value;
+          if (query.trim()) {
+            console.log('Pesquisando por:', query);
+            // Aqui você pode implementar a lógica de pesquisa
+            // Por exemplo, redirecionar para uma página de resultados
+            // window.location.href = `/search/?q=${encodeURIComponent(query)}`;
           }
+        }
       });
-  </script>
-</body>
+
+      // Funcionalidade de toggle para submenus
+      document.querySelectorAll('.sidebar-submenu-toggle').forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+          const submenu = this.nextElementSibling;
+          const icon = this.querySelector('svg:last-child');
+          
+          if (submenu.classList.contains('hidden')) {
+            submenu.classList.remove('hidden');
+            icon.style.transform = 'rotate(180deg)';
+          } else {
+            submenu.classList.add('hidden');
+            icon.style.transform = 'rotate(0deg)';
+          }
+        });
+      });
+
+      // Fechar submenus ao clicar fora
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.sidebar')) {
+          document.querySelectorAll('.submenu').forEach(function(submenu) {
+            submenu.classList.add('hidden');
+          });
+        }
+      });
+    </script>
+  </body>
 </html>
