@@ -4,13 +4,7 @@
     "tailwindcss": "^4.1.11"
   },
   "scripts": {
-    "watch:css": "npx tailwindcss -i ./static/styles.css -o ./static/dist/styles.css --watch",
-    "build:css": "npx tailwindcss -i ./static/styles.css -o ./static/dist/styles.css --minify",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,html,css,scss,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,html,css,scss,md}\"",
-    "format:html": "prettier --write \"templates/**/*.html\" \"core/templates/**/*.html\"",
-    "format:css": "prettier --write \"static/**/*.css\"",
-    "dev": "npm run watch:css"
+    "watch:css": "npx tailwindcss -i ./static/styles.css -o ./static/dist/styles.css --watch"
   },
   "devDependencies": {
     "prettier": "^3.6.2"

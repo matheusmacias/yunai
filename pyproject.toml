@@ -3,15 +3,67 @@ name = "yunai"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "matheusmacias",email = "matheusmacias3@gmail.com"}
+    {name = "matheusmacias", email = "matheusmacias3@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "django (>=5.2.4,<6.0.0)"
+    "django>=5.2.4,<6.0.0"
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+djlint = "^1.36.4"
+poethepoet = "^0.24.0"
+autoflake = "^2.2.1"
+isort = "^5.12.0"
+black = "^23.12.0"
+flake8 = "^6.1.0"
+
+[tool.djlint]
+profile = "django"
+indent = 2
+max_line_length = 120
+format_css = true
+format_js = true
+extension = "html"
+ignore = "H006,H030,H031"
+exclude = ".venv,venv,node_modules"
+
+[tool.poetry.scripts]
+format-html = "djlint:main"
+server = "django:main"
+migrate = "django:main"
+makemigrations = "django:main"
+shell = "django:main"
+
+[tool.poe.tasks]
+"format:html" = "djlint --reformat templates/ core/templates/"
+"format:html:check" = "djlint --check templates/ core/templates/"
+"lint:html" = "djlint templates/ core/templates/"
+"lint:py" = "flake8"
+"server" = "python manage.py runserver"
+"migrate" = "python manage.py migrate"
+"makemigrations" = "python manage.py makemigrations"
+"shell" = "python manage.py shell"
+
+"format:py" = [
+    { cmd = "autoflake --remove-all-unused-imports --remove-unused-variables --in-place --recursive ." },
+    { cmd = "isort ." },
+    { cmd = "black ." }
+]
+"format:py:check" = [
+    { cmd = "black --check ." },
+    { cmd = "isort --check-only ." },
+    { cmd = "flake8" }
+]
+"fix:py" = [
+    { cmd = "autoflake --remove-all-unused-imports --remove-unused-variables --in-place --recursive ." },
+    { cmd = "isort ." },
+    { cmd = "black ." }
+]
+
+"format:all" = ["format:py", "format:html"]
