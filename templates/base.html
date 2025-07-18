@@ -1,26 +1,26 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>{% block title %}Yunai{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Tailwind ou CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body class="bg-gray-100 text-gray-900">
+    <link rel="stylesheet" href="{% static 'dist/styles.css' %}" />
+  </head>
+  <body class="bg-gray-100 text-gray-900">
     <header class="p-4 bg-white shadow">
-        <h1 class="text-xl font-bold">Yunai</h1>
+      <h1 class="text-xl font-bold">Yunai</h1>
     </header>
 
     <main class="p-4">
-        {% block content %}
-        <!-- Conteúdo da página -->
-        {% endblock %}
+      {% block content %}
+      <!-- Conteúdo da página -->
+      {% endblock %}
     </main>
 
     <footer class="text-center text-sm p-4 text-gray-500">
-        &copy; 2025 - Yunai AI
+      &copy; 2025 - Yunai AI
     </footer>
-</body>
+  </body>
 </html>
