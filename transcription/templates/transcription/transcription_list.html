@@ -7,7 +7,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold text-gray-800">Minhas Transcrições</h1>
-        <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center transition-colors">
+        <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center transition-colors" onclick="window.location.href='{% url 'transcription:create' %}'">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -23,7 +23,7 @@
                     <!-- Header do Card -->
                     <div class="p-6 border-b border-gray-200">
                         <div class="flex items-start justify-between">
-                            <div class="flex-1 min-w-0">
+                            <div class="flex-1 min-w-0 pr-4">
                                 <h3 class="text-lg font-semibold text-gray-900 truncate" title="{{ transcription.original_filename }}">
                                     {{ transcription.original_filename }}
                                 </h3>
@@ -31,14 +31,49 @@
                                     {{ transcription.get_file_size_display }} • {{ transcription.get_duration_display }}
                                 </p>
                             </div>
-                            <span class="ml-2 px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0
-                                {% if transcription.status == 'completed' %}bg-green-100 text-green-800
-                                {% elif transcription.status == 'processing' %}bg-blue-100 text-blue-800
-                                {% elif transcription.status == 'pending' %}bg-yellow-100 text-yellow-800
-                                {% elif transcription.status == 'failed' %}bg-red-100 text-red-800
-                                {% else %}bg-gray-100 text-gray-800{% endif %}">
-                                {{ transcription.get_status_display }}
-                            </span>
+                            <div class="flex items-center space-x-2 flex-shrink-0">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full
+                                    {% if transcription.status == 'completed' %}bg-green-100 text-green-800
+                                    {% elif transcription.status == 'processing' %}bg-blue-100 text-blue-800
+                                    {% elif transcription.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                    {% elif transcription.status == 'failed' %}bg-red-100 text-red-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ transcription.get_status_display }}
+                                </span>
+                                
+                                <!-- Menu de 3 pontos -->
+                                <div class="relative" x-data="{ open: false }">
+                                    <button @click="open = !open" @click.away="open = false" 
+                                            class="p-1 rounded-full hover:bg-gray-100 transition-colors">
+                                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                                        </svg>
+                                    </button>
+                                    
+                                    <!-- Dropdown Menu -->
+                                    <div x-show="open" x-transition 
+                                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                                        <div class="py-1">
+                                            <a href="{% url 'transcription:update' transcription.pk %}" 
+                                               class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                                <svg class="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                                Editar
+                                            </a>
+                                            <a href="{% url 'transcription:delete' transcription.pk %}"
+                                               class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                <svg class="w-4 h-4 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                                Deletar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -163,7 +198,7 @@
             </div>
             <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhuma transcrição encontrada</h3>
             <p class="text-gray-500 mb-6">Você ainda não possui transcrições. Comece criando sua primeira!</p>
-            <a href="#" class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-md font-medium flex items-center justify-center transition-colors">
+            <a href="{% url 'transcription:create' %}" class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-md font-medium flex items-center justify-center transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>

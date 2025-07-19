@@ -17,7 +17,9 @@
                 <li>
                     <div class="flex items-center">
                         <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"></path>
                         </svg>
                         <span class="ml-1 text-gray-500">{{ title }}</span>
                     </div>
@@ -31,66 +33,271 @@
             <p class="mt-2 text-gray-600">Preencha as informações da transcrição</p>
         </div>
 
-        <!-- Form -->
-        <div class="bg-white shadow rounded-lg">
-            <form method="post" class="p-6 space-y-6">
-                {% csrf_token %}
-                
-                <!-- Mensagens de erro -->
-                {% if form.non_field_errors %}
-                    <div class="bg-red-50 border border-red-200 rounded-md p-4">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Erro no formulário</h3>
-                                <div class="mt-2 text-sm text-red-700">
-                                    {% for error in form.non_field_errors %}
+        <!-- Form Container -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Form Section -->
+                <div class="lg:col-span-2">
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+
+                        <!-- Mensagens de erro -->
+                        {% if form.non_field_errors %}
+                        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-red-800">Erro no formulário</h3>
+                                    <div class="mt-2 text-sm text-red-700">
+                                        {% for error in form.non_field_errors %}
                                         <p>{{ error }}</p>
-                                    {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Seção: Informações do Arquivo -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Nome do Arquivo -->
+                            <div>
+                                <label for="{{ form.original_filename.id_for_label }}"
+                                    class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nome do Arquivo *
+                                </label>
+                                {{ form.original_filename }}
+                                {% if form.original_filename.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ form.original_filename.help_text }}</p>
+                                {% endif %}
+                                {% if form.original_filename.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.original_filename.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Idioma -->
+                            <div>
+                                <label for="{{ form.language.id_for_label }}"
+                                    class="block text-sm font-medium text-gray-700 mb-2">
+                                    Idioma *
+                                </label>
+                                {{ form.language }}
+                                {% if form.language.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ form.language.help_text }}</p>
+                                {% endif %}
+                                {% if form.language.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.language.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+                        <!-- Seção: Transcrição -->
+                        <div>
+                            <label for="{{ form.transcription_text.id_for_label }}"
+                                class="block text-sm font-medium text-gray-700 mb-2">
+                                Transcrição
+                            </label>
+                            {{ form.transcription_text }}
+                            {% if form.transcription_text.help_text %}
+                            <p class="mt-1 text-sm text-gray-500">{{ form.transcription_text.help_text }}</p>
+                            {% endif %}
+                            {% if form.transcription_text.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.transcription_text.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                            <a href="{% url 'transcription:list' %}"
+                                class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                Cancelar
+                            </a>
+                            <button type="submit"
+                                class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors">
+                                {{ button_text }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="lg:col-span-1">
+                    <div class="space-y-6">
+                        <!-- Thumbnail Placeholder -->
+                        <div
+                            class="bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl aspect-video flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                                    viewBox="0 0 48 48" aria-hidden="true">
+                                    <path
+                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="mt-2 text-sm text-gray-500">Preview do arquivo</p>
+                                <p class="text-xs text-gray-400">Thumbnail será exibida aqui</p>
+                            </div>
+                        </div>
+
+                        <!-- Informações Gerais -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-900 mb-3">Informações Gerais</h3>
+                            <div class="space-y-2 text-sm">
+                                {% if object %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Arquivo:</span>
+                                    <span class="text-gray-900 truncate max-w-32"
+                                        title="{{ object.original_filename }}">{{ object.original_filename }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Tamanho:</span>
+                                    <span class="text-gray-900">{{ object.get_file_size_display }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Duração:</span>
+                                    <span class="text-gray-900">{{ object.get_duration_display }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Idioma:</span>
+                                    <span class="text-gray-900">{{ object.get_language_display }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Status:</span>
+                                    {% if object.status == 'pending' %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% elif object.status == 'processing' %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% elif object.status == 'completed' %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% elif object.status == 'failed' %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% elif object.status == 'cancelled' %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% else %}
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        {{ object.get_status_display }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                {% if object.progress > 0 %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Progresso:</span>
+                                    <span class="text-gray-900">{{ object.progress }}%</span>
+                                </div>
+                                <!-- Barra de progresso -->
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                        style="width: {{ object.progress }}%"></div>
+                                </div>
+                                {% endif %}
+                                {% if object.confidence_score %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Confiança:</span>
+                                    <span class="text-gray-900">{{ object.confidence_score|floatformat:1 }}%</span>
+                                </div>
+                                {% endif %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Criado em:</span>
+                                    <span class="text-gray-900">{{ object.created_at|date:"d/m/Y H:i" }}</span>
+                                </div>
+                                {% if object.started_at %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Iniciado em:</span>
+                                    <span class="text-gray-900">{{ object.started_at|date:"d/m/Y H:i" }}</span>
+                                </div>
+                                {% endif %}
+                                {% if object.completed_at %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Concluído em:</span>
+                                    <span class="text-gray-900">{{ object.completed_at|date:"d/m/Y H:i" }}</span>
+                                </div>
+                                {% endif %}
+                                {% else %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Tipo:</span>
+                                    <span class="text-gray-900">Audio/Vídeo</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Tamanho:</span>
+                                    <span class="text-gray-900">--</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Duração:</span>
+                                    <span class="text-gray-900">--</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Status:</span>
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Aguardando
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Estatísticas da Transcrição -->
+                        {% if object and object.transcription_text %}
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-900 mb-3">Estatísticas da Transcrição</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Caracteres:</span>
+                                    <span class="text-gray-900">{{ object.transcription_text|length }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Palavras:</span>
+                                    <span class="text-gray-900">{{ object.transcription_text|wordcount }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Dicas -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div class="flex">
+                                <svg class="flex-shrink-0 h-5 w-5 text-blue-400" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-medium text-blue-800">Dicas</h4>
+                                    <ul class="mt-2 text-sm text-blue-700 space-y-1">
+                                        <li>• Arquivos de áudio claros geram melhores resultados</li>
+                                        <li>• Selecione o idioma correto do arquivo</li>
+                                        <li>• Formatos suportados: MP3, MP4, WAV, M4A</li>
+                                        <li>• Você pode editar a transcrição após o processamento</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% endif %}
-
-                <!-- Nome do Arquivo -->
-                <div>
-                    <label for="{{ form.original_filename.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Nome do Arquivo *
-                    </label>
-                    {{ form.original_filename }}
-                    {% if form.original_filename.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ form.original_filename.errors.0 }}</p>
-                    {% endif %}
                 </div>
-
-                <!-- Idioma -->
-                <div>
-                    <label for="{{ form.language.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Idioma *
-                    </label>
-                    {{ form.language }}
-                    {% if form.language.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ form.language.errors.0 }}</p>
-                    {% endif %}
-                </div>
-
-                <!-- Botões -->
-                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
-                    <a href="{% url 'transcription:list' %}" 
-                       class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                        Cancelar
-                    </a>
-                    <button type="submit" 
-                            class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors">
-                        {{ button_text }}
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

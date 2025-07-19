@@ -4,8 +4,8 @@
 {% block title %}Excluir Transcrição{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-md mx-auto">
+<div class="container mx-auto px-4 py-8 w-full">
+    <div class="w-full">
         <!-- Breadcrumb -->
         <nav class="flex mb-6" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -26,7 +26,7 @@
         </nav>
 
         <!-- Card de Confirmação -->
-        <div class="bg-white shadow rounded-lg p-6">
+        <div class="bg-white shadow rounded-lg p-6 w-full">
             <div class="flex items-center mb-4">
                 <div class="flex-shrink-0">
                     <svg class="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,9 +56,9 @@
                 </p>
             </div>
 
-            <form method="post">
+            <form method="post" class="w-full">
                 {% csrf_token %}
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between w-full">
                     <a href="{% url 'transcription:list' %}" 
                        class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                         Cancelar
