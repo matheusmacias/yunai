@@ -1,0 +1,75 @@
+<!-- transcription/templates/transcription/transcription_confirm_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}Excluir Transcrição{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-md mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-6" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{% url 'transcription:list' %}" class="text-gray-700 hover:text-blue-600">
+                        Transcrições
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-1 text-gray-500">Excluir</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Card de Confirmação -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <div class="flex items-center mb-4">
+                <div class="flex-shrink-0">
+                    <svg class="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-lg font-medium text-gray-900">Confirmar Exclusão</h3>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-gray-600 mb-4">
+                    Tem certeza que deseja excluir a transcrição:
+                </p>
+                <div class="bg-gray-50 rounded-md p-4 border">
+                    <p class="font-medium text-gray-900">{{ object.original_filename }}</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Criado em {{ object.created_at|date:"d/m/Y H:i" }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Status: {{ object.get_status_display }}
+                    </p>
+                </div>
+                <p class="text-red-600 text-sm mt-4 font-medium">
+                    ⚠️ Esta ação não pode ser desfeita.
+                </p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex items-center justify-between">
+                    <a href="{% url 'transcription:list' %}" 
+                       class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Cancelar
+                    </a>
+                    <button type="submit" 
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Sim, Excluir
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

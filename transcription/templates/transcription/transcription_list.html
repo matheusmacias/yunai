@@ -1,0 +1,175 @@
+<!-- transcription/templates/transcription/transcription_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Minhas Transcrições{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-800">Minhas Transcrições</h1>
+        <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Adicionar
+        </button>
+    </div>
+    
+    {% if transcriptions %}
+        <!-- Grid de Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% for transcription in transcriptions %}
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <!-- Header do Card -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-lg font-semibold text-gray-900 truncate" title="{{ transcription.original_filename }}">
+                                    {{ transcription.original_filename }}
+                                </h3>
+                                <p class="text-sm text-gray-500 mt-1">
+                                    {{ transcription.get_file_size_display }} • {{ transcription.get_duration_display }}
+                                </p>
+                            </div>
+                            <span class="ml-2 px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0
+                                {% if transcription.status == 'completed' %}bg-green-100 text-green-800
+                                {% elif transcription.status == 'processing' %}bg-blue-100 text-blue-800
+                                {% elif transcription.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                {% elif transcription.status == 'failed' %}bg-red-100 text-red-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ transcription.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Corpo do Card -->
+                    <div class="p-6">
+                        <!-- Informações -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Idioma:</span>
+                                <span class="text-sm font-medium text-gray-900">{{ transcription.get_language_display }}</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Criado em:</span>
+                                <span class="text-sm font-medium text-gray-900">{{ transcription.created_at|date:"d/m/Y H:i" }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Barra de Progresso -->
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700">Progresso</span>
+                                <span class="text-sm text-gray-500">{{ transcription.progress }}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="h-2 rounded-full transition-all duration-300
+                                    {% if transcription.status == 'completed' %}bg-green-600
+                                    {% elif transcription.status == 'failed' %}bg-red-600
+                                    {% elif transcription.status == 'processing' %}bg-blue-600
+                                    {% else %}bg-yellow-600{% endif %}"
+                                     style="width: {{ transcription.progress }}%">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ações -->
+                        <div class="flex space-x-2">
+                            <button class="flex-1 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                Ver detalhes
+                            </button>
+                            {% if transcription.is_completed %}
+                                <button class="bg-gray-900 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    Download
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginação com Tailwind -->
+        {% if is_paginated %}
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-lg shadow">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" 
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                            Previous
+                        </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" 
+                           class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                            Next
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Mostrando
+                            <span class="font-medium">{{ page_obj.start_index }}</span>
+                            até
+                            <span class="font-medium">{{ page_obj.end_index }}</span>
+                            de
+                            <span class="font-medium">{{ page_obj.paginator.count }}</span>
+                            resultados
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1" 
+                                   class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                                    First
+                                </a>
+                                <a href="?page={{ page_obj.previous_page_number }}" 
+                                   class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                                    Previous
+                                </a>
+                            {% endif %}
+                            
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-900 text-sm font-medium text-white">
+                                {{ page_obj.number }}
+                            </span>
+                            
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}" 
+                                   class="relative inline-flex items-center px-3 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                                    Next
+                                </a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}" 
+                                   class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                                    Last
+                                </a>
+                            {% endif %}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+    {% else %}
+        <!-- Estado vazio -->
+        <div class="text-center py-12">
+            <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhuma transcrição encontrada</h3>
+            <p class="text-gray-500 mb-6">Você ainda não possui transcrições. Comece criando sua primeira!</p>
+            <a href="#" class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-md font-medium flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Create First Transcription
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
